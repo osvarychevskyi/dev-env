@@ -1,11 +1,10 @@
 ---
 vagrantfile-local:
     vm:
-        box: puphpet/ubuntu1404-x64
-        box_url: puphpet/ubuntu1404-x64
+        box: ubuntu1404-x64-50gb
         hostname: ''
-        memory: '512'
-        cpus: '1'
+        memory: '2048'
+        cpus: '2'
         chosen_provider: virtualbox
         network:
             private_network: 192.168.56.101
@@ -40,7 +39,13 @@ vagrantfile-local:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
-        synced_folder: {  }
+        synced_folder:
+            pjOnzbZ7te45:
+                source: 'C:/work/magento'
+                target: /var/magento
+                sync_type: default
+                rsync:
+                    auto: 'false'
         usable_port_range:
             start: 10200
             stop: 10500
@@ -60,8 +65,11 @@ server:
     install: '1'
     packages:
         - mc
+        - vim
+        - mysql-client-core-5.5
+        - mysql-client-5.5
 firewall:
-    install: '1'
+    install: '0'
     rules: null
 apache:
     install: '1'
@@ -75,11 +83,11 @@ apache:
     modules:
         - rewrite
     vhosts:
-        pbO2vGS7xdy0:
+        ubuntu.dev:
             servername: ubuntu.dev
             serveraliases:
                 - www.ubuntu.dev
-            docroot: /var/www/
+            docroot: /var/www
             port: '80'
             setenv:
                 - 'APP_ENV dev'
@@ -95,7 +103,27 @@ apache:
             ssl_key: ''
             ssl_chain: ''
             ssl_certs_dir: ''
-    mod_pagespeed: '1'
+        community.1.9.0.1.dev:
+            servername: community.1.9.0.1.dev
+            serveraliases:
+                - www.community.1.9.0.1.dev
+            docroot: /var/www/magento-1.9.0.1
+            port: '80'
+            setenv:
+                - 'APP_ENV dev'
+            override:
+                - All
+            options:
+                - Indexes
+                - FollowSymLinks
+                - MultiViews
+            engine: php
+            custom_fragment: ''
+            ssl_cert: ''
+            ssl_key: ''
+            ssl_chain: ''
+            ssl_certs_dir: ''
+    mod_pagespeed: 1
 nginx:
     install: '0'
     settings:
@@ -103,7 +131,7 @@ nginx:
         proxy_buffer_size: 128k
         proxy_buffers: '4 256k'
     vhosts:
-        j6Qsz5sVt5f0:
+        AqkWbWPW74pD:
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
@@ -127,8 +155,15 @@ php:
     modules:
         php:
             - cli
+            - curl
+            - gd
+            - imagick
             - intl
+            - mbstring
             - mcrypt
+            - memcache
+            - memcached
+            - mysql
         pear: {  }
         pecl:
             - pecl_http
@@ -167,7 +202,7 @@ drush:
 ruby:
     install: '1'
     versions:
-        tguWwpz12N9y:
+        uayShPnZd0Xd:
             version: ''
 nodejs:
     install: '0'
@@ -180,9 +215,17 @@ python:
             version: ''
 mysql:
     install: '1'
-    root_password: 123123q
+    root_password: '123123q'
     adminer: 0
-    databases: {  }
+    databases:
+        IbyMqp4xF2l3:
+            grant:
+                - ALL
+            name: community_1_9_0_1
+            host: '%'
+            user: remote
+            password: 123123q
+            sql_file: '/var/magento/magento-sample-data-1.9.0.0/magento_sample_data_for_1.9.0.0.sql'
 postgresql:
     install: '0'
     settings:
