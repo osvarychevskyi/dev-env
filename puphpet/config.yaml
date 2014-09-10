@@ -39,13 +39,7 @@ vagrantfile-local:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
-        synced_folder:
-            pjOnzbZ7te45:
-                source: 'C:/work/magento'
-                target: /var/magento
-                sync_type: default
-                rsync:
-                    auto: 'false'
+        synced_folder: {  }
         usable_port_range:
             start: 10200
             stop: 10500
@@ -103,27 +97,7 @@ apache:
             ssl_key: ''
             ssl_chain: ''
             ssl_certs_dir: ''
-        community.1.9.0.1.dev:
-            servername: community.1.9.0.1.dev
-            serveraliases:
-                - www.community.1.9.0.1.dev
-            docroot: /var/www/magento-1.9.0.1
-            port: '80'
-            setenv:
-                - 'APP_ENV dev'
-            override:
-                - All
-            options:
-                - Indexes
-                - FollowSymLinks
-                - MultiViews
-            engine: php
-            custom_fragment: ''
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_chain: ''
-            ssl_certs_dir: ''
-    mod_pagespeed: 1
+    mod_pagespeed: '1'
 nginx:
     install: '0'
     settings:
@@ -221,11 +195,11 @@ mysql:
         IbyMqp4xF2l3:
             grant:
                 - ALL
-            name: community_1_9_0_1
+            name: fake
             host: '%'
             user: remote
             password: 123123q
-            sql_file: '/var/magento/magento-sample-data-1.9.0.0/magento_sample_data_for_1.9.0.0.sql'
+            sql_file: ''
 postgresql:
     install: '0'
     settings:
